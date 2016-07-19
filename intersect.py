@@ -89,6 +89,12 @@ if __name__ == "__main__":
             plt.clf()
         # plt.show()
 
+for i in range(0,len(names)):
+    plt.bar(range(1,len(names)),candice[i][0:i]+candice[i][(i+1):len(names)],align="center",color='orange',alpha=0.5)
+    plt.title("%s's alternate Jaccard scores against all other methods"%names[i])
+    plt.xticks(range(1,len(names)),names[0:i]+names[(i+1):len(names)])
+    plt.show()
+
             
     # keggseed = pd.merge(kegg, seed, how='inner', on='gi')
     # keggnog = pd.merge(kegg, eggnog, how='inner', on='gi')
