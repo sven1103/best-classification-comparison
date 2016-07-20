@@ -3,6 +3,7 @@ import pandas as pd
 from matplotlib_venn import venn2
 from matplotlib_venn import venn3
 from matplotlib import pyplot as plt
+from tqdm import tqdm
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Get GI's intersecting with the different classification systems:"
@@ -30,7 +31,7 @@ if __name__ == "__main__":
     card.columns = ['gi', 'card']
     card = card.drop_duplicates(subset='gi')
     print('Reading InterPro mapping file...')
-    interpro = pd.read_csv(path_to_tree+"interpro2go/gi2interpro-June2016.map", sep='\t', header=None)
+    interpro = pd.read_csv(path_to_tree+"interpro2go/gi2interpro-June2016X.map", sep='\t', header=None)
     interpro.columns = ['gi', 'interpro']
     interpro = interpro.drop_duplicates(subset='gi')
 
@@ -39,10 +40,10 @@ if __name__ == "__main__":
 
     intersects = [[0 for x in range(len(names))] for y in range(len(names))]
     count = 0
-    indexes3 = [[-1 for x in range(len(names))] for y in range(len(names))]
+    indexes = [[-1 for x in range(len(names))] for y in range(len(names))]
     inters = []
     candice = [[0 for x in range(len(names))]for y in range(len(names))]
-    for i in range(0,len(names)-1):
+    for i in tqdm(range(0,len(names)-1)):
         for j in range(i+1,len(names)):
             print("Running merge on %s with %s..." % (names[i], names[j]))
             inter = pd.merge(outer_sets[i],outer_sets[j])
@@ -87,7 +88,7 @@ if __name__ == "__main__":
                 ha = 'center', textcoords = 'offset points', bbox = dict(boxstyle = 'round, pad = 0.5', fc = 'lime', alpha = 0.3),
                 arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3, rad = 0.5', color = 'gray'))
             plt.title("Venn Diagram of intersecting GIs from %s with %s (Jaccard = %.3f)" % (names[i],names[j],jac))
-            plt.savefig("venn_%s_%s"%(names[i],names[j]))
+            plt.savefig("venn/venn_%s_%s"%(names[i],names[j]))
             plt.clf()
         # plt.show()
     print("Creating alternate jaccard bar charts...")
@@ -113,7 +114,7 @@ if __name__ == "__main__":
                 print("size: {0:,}".format(len(inters3[count])))
                 count += 1
 
-    for i in range(0,len(names)-2):
+    for i in tqdm(range(0,len(names)-2)):
         for j in range(i+1,len(names)-1):
             for k in range(j+1,len(names)):
                 sb = (len(outer_sets[i])-intersects[i][j]-intersects[i][k]+len(inters3[indexes3[i][j][k]]),
@@ -159,7 +160,7 @@ if __name__ == "__main__":
                 plt.annotate('{0:,}'.format(sb[6]), xy = v.get_label_by_id('111').get_position(), xytext = (-50,20), size = 'medium',
                 ha = 'center', textcoords = 'offset points',
                 arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3, rad = 0.5', color = 'gray'))
-                plt.savefig("venn/venn_%s_%s_%s" % (names[i],names[j],names[k]))
+                plt.savefig("venn/venn3_%s_%s_%s" % (names[i],names[j],names[k]))
                 plt.clf()
                 # plt.show()
 
