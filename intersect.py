@@ -17,23 +17,23 @@ if __name__ == "__main__":
     print('Reading KEGG mapping file...')
     kegg = pd.read_csv(path_to_tree+"kegg/gi2kegg-June2016X.map", sep='\t', header=None)
     kegg.columns = ['gi', 'kegg']
-    kegg = kegg.drop_duplicates(subset='gi')
+    # kegg = kegg.drop_duplicates(subset='gi')
     print('Reading SEED mapping file...')
     seed = pd.read_csv(path_to_tree+"seed/gi2seed-May2015X.map", sep='\t', header=None)
     seed.columns = ['gi', 'seed']
-    seed = seed.drop_duplicates(subset='gi')
+    # seed = seed.drop_duplicates(subset='gi')
     print('Reading eggNOG mapping file...')
     eggnog = pd.read_csv(path_to_tree+"eggNOG/gi2eggnog-June2016X.map", sep='\t', header=None)
     eggnog.columns = ['gi', 'eggnog']
-    eggnog = eggnog.drop_duplicates(subset='gi')
+    # eggnog = eggnog.drop_duplicates(subset='gi')
     print('Reading CARD mapping file...')
     card = pd.read_csv(path_to_tree+"card/gi2card-June2016X.map", sep='\t', header=None)
     card.columns = ['gi', 'card']
-    card = card.drop_duplicates(subset='gi')
+    # card = card.drop_duplicates(subset='gi')
     print('Reading InterPro mapping file...')
     interpro = pd.read_csv(path_to_tree+"interpro2go/gi2interpro-June2016X.map", sep='\t', header=None)
     interpro.columns = ['gi', 'interpro']
-    interpro = interpro.drop_duplicates(subset='gi')
+    # interpro = interpro.drop_duplicates(subset='gi')
 
     names = ["KEGG","SEED","eggNOG","CARD","interpro2go"]
     outer_sets = [kegg,seed,eggnog,card,interpro]
