@@ -1,4 +1,8 @@
 from Bio import Phylo
+import pandas as pd
+
+path_to_tree = "../../"
+PHYLO_TYPE = "newick"
 
 def all_parents(tree):
     parents = {}
@@ -36,5 +40,15 @@ eggnog = pd.read_csv(path_to_tree+"eggNOG/gi2eggnog-June2016X.map", sep='\t', he
 eggnog.columns = ['gi', 'eggnog']
 
 intersect = pd.merge(kegg,eggnog,"inner")
+left = pd.merge(kegg,eggnog,"left")
+right = pd.merge(kegg,eggnog,"right")
 
+k_i = set(intersect["kegg"])
+e_i = set(intersect["eggnog"])
+l = set(left["kegg"])
+r = set(right["eggnog"])
 
+kegg_tree = Phylo.read(path_to_tree + "kegg/kegg.tre", PHYLO_TYPE)
+egg_tree = Phylo.read(path_to_tree + "eggNOG/eggnog.tre", PHYLO_TYPE)
+
+for key in k_i:
